@@ -11,6 +11,10 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _addons = require('@storybook/addons');
+
+var _addons2 = _interopRequireDefault(_addons);
+
 var _lodash = require('lodash.debounce');
 
 var _lodash2 = _interopRequireDefault(_lodash);
@@ -33,11 +37,11 @@ var WithXStateGraph = exports.WithXStateGraph = function (_React$Component) {
   function WithXStateGraph(props) {
     _classCallCheck(this, WithXStateGraph);
 
-    // console.log("At thius pooint ", addons);
-    // const channel = addons.getChannel();
-    // console.log("Going to use channel",channel);
-
     var _this = _possibleConstructorReturn(this, (WithXStateGraph.__proto__ || Object.getPrototypeOf(WithXStateGraph)).call(this, props));
+
+    console.log("At thius pooint ", _addons2.default);
+    var channel = _addons2.default.getChannel();
+    console.log("Going to use channel", channel);
 
     _this.onTransition = _this.onTransition.bind(_this);
     _this.resizeEmitter = (0, _lodash2.default)(function (evt) {
@@ -59,7 +63,7 @@ var WithXStateGraph = exports.WithXStateGraph = function (_React$Component) {
   }, {
     key: 'componentWillUnmount',
     value: function componentWillUnmount() {
-      var channel = addons.getChannel();
+      var channel = _addons2.default.getChannel();
       window.removeEventListener('storage', this.resizeEmitter, false);
       channel.removeListener('xstate/transition', this.onTransition);
     }
@@ -71,7 +75,7 @@ var WithXStateGraph = exports.WithXStateGraph = function (_React$Component) {
           machine = _props.machine,
           currentState = _props.currentState;
 
-      var channel = addons.getChannel();
+      var channel = _addons2.default.getChannel();
       channel.emit('xstate/buildGraph', { machine: machine, currentState: currentState });
       return children;
     }

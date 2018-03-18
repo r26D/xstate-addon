@@ -129,6 +129,21 @@ var XStateGraph = function (_React$Component) {
 }(_react2.default.Component);
 
 function register() {
+
+  // addons.register(ADDON_ID, api => {
+  //   const channel = addons.getChannel();
+
+  //   addons.addPanel(`${ADDON_ID}/graph`, {
+  //     title: 'XState Graph',
+  //     render: () => <div><h1>Graph Panel</h1><p>asdfsfafsdfadsasfdasdf</p></div>,
+  //     //render: () => <StoryPanel channel={channel} onStory={api.onStory} />,
+  //   });
+
+  // //   addons.addPanel(`${ADDON_ID}/propsPanel`, {
+  // //     title: 'Props',
+  // //     render: () => <PropsPanel channel={channel} onStory={api.onStory} />,
+  // //   });
+  // });
   console.log("Im' going to register my hting", _addons2.default.loaders);
   _addons2.default.register(_.ADDON_ID, function (api) {
     var channel = _addons2.default.getChannel();
@@ -141,4 +156,5 @@ function register() {
     });
   });
   console.log("After the festier", _addons2.default.loaders);
+  return function () {};
 }
