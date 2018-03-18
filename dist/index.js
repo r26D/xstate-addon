@@ -39,9 +39,7 @@ var WithXStateGraph = exports.WithXStateGraph = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (WithXStateGraph.__proto__ || Object.getPrototypeOf(WithXStateGraph)).call(this, props));
 
-    console.log("At thius pooint ", _addons2.default);
     var channel = _addons2.default.getChannel();
-    console.log("Going to use channel", channel);
 
     _this.onTransition = _this.onTransition.bind(_this);
     _this.resizeEmitter = (0, _lodash2.default)(function (evt) {
