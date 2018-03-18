@@ -6,6 +6,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "babel -d ./dist ./src", 
+    "local_build": "babel -d ./dist ./src; babel -d /home/delmendo/Desktop/git/brokerage_engine/brokerage_engine_app/node_modules/@storybook/addon-xstate/dist ./src", 
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
 

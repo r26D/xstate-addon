@@ -41,11 +41,52 @@ var styles = {
   }
 };
 
+var Action = function Action(_ref) {
+  var value = _ref.value;
+
+  if (!value || value.length === 0) {
+    return null;
+  }
+  console.log("Action has", value);
+  return _react2.default.createElement(
+    'span',
+    null,
+    ' calls ',
+    value.join(",")
+  );
+};
+var ActionDetails = function ActionDetails(_ref2) {
+  var actionDetails = _ref2.actionDetails;
+
+  if (!actionDetails) {
+    return null;
+  }
+  console.log("ActionDetails", actionDetails);
+  return _react2.default.createElement(
+    'div',
+    null,
+    _react2.default.createElement(
+      'h3',
+      null,
+      'Action Details'
+    ),
+    actionDetails.actions.map(function (event) {
+      return _react2.default.createElement(
+        'div',
+        null,
+        event.label,
+        _react2.default.createElement(Action, { value: event.actions }),
+        _react2.default.createElement('br', null)
+      );
+    })
+  );
+};
+
 var XStateGraph = function (_React$Component) {
   _inherits(XStateGraph, _React$Component);
 
   function XStateGraph() {
-    var _ref;
+    var _ref3;
 
     _classCallCheck(this, XStateGraph);
 
@@ -53,26 +94,33 @@ var XStateGraph = function (_React$Component) {
       args[_key] = arguments[_key];
     }
 
-    var _this = _possibleConstructorReturn(this, (_ref = XStateGraph.__proto__ || Object.getPrototypeOf(XStateGraph)).call.apply(_ref, [this].concat(args)));
+    var _this = _possibleConstructorReturn(this, (_ref3 = XStateGraph.__proto__ || Object.getPrototypeOf(XStateGraph)).call.apply(_ref3, [this].concat(args)));
 
     _this.buildGraph = _this.buildGraph.bind(_this);
     _this.resizeGraph = _this.resizeGraph.bind(_this);
+    _this.onDetails = _this.onDetails.bind(_this);
     _this.curMachine = '';
+
     return _this;
   }
 
   _createClass(XStateGraph, [{
+    key: 'onDetails',
+    value: function onDetails(evt, details) {
+      console.log("Details!", evt, details);
+    }
+  }, {
     key: 'resizeGraph',
     value: function resizeGraph() {
       if (this.graph) this.graph.resize();
     }
   }, {
     key: 'buildGraph',
-    value: function buildGraph(_ref2) {
+    value: function buildGraph(_ref4) {
       var _this2 = this;
 
-      var machine = _ref2.machine,
-          currentState = _ref2.currentState;
+      var machine = _ref4.machine,
+          currentState = _ref4.currentState;
 
       if (machine && currentState) {
         if (this.curMachine !== machine.id) {
@@ -81,6 +129,11 @@ var XStateGraph = function (_React$Component) {
             var channel = _this2.props.channel;
 
             channel.emit('xstate/transition', event);
+          }, function (event, data) {
+            var channel = _this2.props.channel;
+
+            console.log("Emmitting for ", event, data, channel);
+            channel.emit('xstate/details', event, data);
           });
         } else {
           this.graph.setState(currentState);
@@ -99,8 +152,10 @@ var XStateGraph = function (_React$Component) {
           channel = _props.channel,
           api = _props.api;
 
+      console.log("Laoding up");
       channel.on('xstate/buildGraph', this.buildGraph);
       channel.on('xstate/resize', this.resizeGraph);
+      channel.on('xstate/details', this.onDetails);
     }
   }, {
     key: 'componentWillUnmount',
@@ -112,6 +167,7 @@ var XStateGraph = function (_React$Component) {
 
       channel.removeListener('xstate/buildGraph', this.buildGraph);
       channel.removeListener('xstate/resize', this.resizeGraph);
+      channel.removeListener('xstate/details', this.onDetails);
       this.graph.remove();
     }
   }, {
@@ -119,9 +175,22 @@ var XStateGraph = function (_React$Component) {
     value: function render() {
       var _this3 = this;
 
-      return _react2.default.createElement('div', { style: styles.cy, id: 'cy', ref: function ref(el) {
-          return _this3.cNode = el;
-        } });
+      return _react2.default.createElement(
+        'div',
+        { style: { height: "100%", width: "100%" } },
+        _react2.default.createElement(
+          'div',
+          null,
+          _react2.default.createElement(
+            'h1',
+            null,
+            'Hello'
+          )
+        ),
+        _react2.default.createElement('div', { style: styles.cy, id: 'cy', ref: function ref(el) {
+            return _this3.cNode = el;
+          } })
+      );
     }
   }]);
 

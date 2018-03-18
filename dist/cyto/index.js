@@ -25,7 +25,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 _cytoscape2.default.use(_cytoscapeCoseBilkent2.default);
 var cy = void 0;
-var render = exports.render = function render(domElement, graph, onEventClicked) {
+var render = exports.render = function render(domElement, graph, onEventClicked, onEventHovered) {
   if (cy) {
     cy.remove();
   }
@@ -37,8 +37,17 @@ var render = exports.render = function render(domElement, graph, onEventClicked)
   });
   cy.on('tap', function (evt) {
     var target = evt.target;
+    console.log("Clicked on", target.data ? target.data() : target, target.group && target.group());
     if (target.group && target.group() === 'edges') {
       onEventClicked(target.data('key'));
+    }
+  });
+  cy.on('mouseover', function (evt) {
+    var target = evt.target;
+
+    if (target.group && target.group() === 'edges' && onEventHovered) {
+      console.log("Hoverged on", target.data ? target.data() : target, target.group && target.group(), onEventHovered);
+      onEventHovered(target.data('key'), target.data());
     }
   });
 

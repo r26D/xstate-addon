@@ -17,14 +17,44 @@ const styles = {
   }
 };
 
+const Action = ({value}) =>{
+  if (!value || value.length === 0 ) {
+    return(null);
+  }
+
+  return(<span> calls {value.join(",")}</span>)
+}
+const ActionDetails = ({ actionDetails }) => {
+  if (!actionDetails) {
+    return(null)
+  }
+
+  return(<div>
+      <h3>Action Details</h3>
+      {actionDetails.actions.map((event) => (
+        <div>
+          {event.label}<Action value={event.actions}/>
+          <br/>
+          </div>
+          
+      ))}
+      </div>)
+};
+
 class XStateGraph extends React.Component {
   constructor(...args) {
     super(...args);
     this.buildGraph = this.buildGraph.bind(this);
     this.resizeGraph = this.resizeGraph.bind(this);
+    this.onDetails = this.onDetails.bind(this);
     this.curMachine = '';
+   
   }
 
+ 
+  onDetails(evt, details) {
+  //  console.log("Details!",evt,details)
+  }
   resizeGraph() {
     if (this.graph) this.graph.resize();
   }
@@ -38,6 +68,11 @@ class XStateGraph extends React.Component {
           event => {
             const { channel } = this.props;
             channel.emit('xstate/transition', event);
+          },
+          (event,data) => {
+            const { channel } = this.props;
+          
+            channel.emit('xstate/details',event,data);
           }
         );
       } else {
@@ -50,8 +85,10 @@ class XStateGraph extends React.Component {
   }
   componentDidMount() {
     const { channel, api } = this.props;
+  
     channel.on('xstate/buildGraph', this.buildGraph);
     channel.on('xstate/resize', this.resizeGraph);
+    channel.on('xstate/details', this.onDetails);
   }
 
   componentWillUnmount() {
@@ -59,11 +96,15 @@ class XStateGraph extends React.Component {
     const { channel, api } = this.props;
     channel.removeListener('xstate/buildGraph', this.buildGraph);
     channel.removeListener('xstate/resize', this.resizeGraph);
+    channel.removeListener('xstate/details', this.onDetails);
     this.graph.remove();
   }
 
   render() {
-    return <div style={styles.cy} id="cy" ref={el => (this.cNode = el)} />;
+    return <div style={{ height: "100%", width: "100%"}}>
+      <div><h1>Hello</h1></div>
+      <div style={styles.cy} id="cy" ref={el => (this.cNode = el)} />
+      </div>;
   }
 }
 

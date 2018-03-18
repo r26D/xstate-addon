@@ -17,13 +17,28 @@ var build = exports.build = function build(states, initial) {
   return R.flatten(R.reduce(function (acc, stateKey) {
     var state = states[stateKey];
     var childNodes = R.has('states', state) ? build(state.states, state.initial, stateKey, currentState, false) : [];
+
     var edges = R.map(function (edgeKey) {
+      console.log("EdgeKey is", edgeKey, state.on[edgeKey]);
+      var target = void 0;
+      var eventData = void 0;
+      if (typeof state.on[edgeKey] === "string") {
+        target = state.on[edgeKey];
+        eventData = { label: edgeKey, actions: [] };
+      } else {
+        target = Object.keys(state.on[edgeKey])[0];
+        eventData = { label: edgeKey + "*", actions: state.on[edgeKey][target]["actions"] };
+      }
+
       return (0, _utils.createEdge)({
         id: (0, _utils.createId)(stateKey, edgeKey),
+        source: state.relativeId,
         key: edgeKey,
         parent: parent,
-        source: state.relativeId,
-        target: (0, _utils.createId)(parent, state.on[edgeKey])
+        target: (0, _utils.createId)(parent, target),
+        label: eventData.label,
+        actions: eventData.actions
+
       });
     }, R.keysIn(state.on));
     var node = (0, _utils.createNode)({

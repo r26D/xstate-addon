@@ -6,7 +6,7 @@ import style from './style';
 
 c.use(coseBilkent);
 let cy;
-export const render = (domElement, graph, onEventClicked) => {
+export const render = (domElement, graph, onEventClicked, onEventHovered) => {
   if (cy) {
     cy.remove();
   }
@@ -18,8 +18,17 @@ export const render = (domElement, graph, onEventClicked) => {
   });
   cy.on('tap', evt => {
     const target = evt.target;
-    if (target.group && target.group() === 'edges') {
-      onEventClicked(target.data('key'));
+    console.log("Clicked on", target.data ? target.data() : target, target.group &&target.group())
+     if (target.group && target.group() === 'edges') {
+     onEventClicked(target.data('key'));
+    }
+  });
+  cy.on('mouseover', evt => {
+     const target = evt.target;
+     
+    if (target.group && target.group() === 'edges' && onEventHovered) {
+      console.log("Hoverged on", target.data ? target.data() : target, target.group &&target.group(), onEventHovered)
+       onEventHovered(target.data('key'), target.data());
     }
   });
 

@@ -31,7 +31,7 @@ var ADDON_ID = exports.ADDON_ID = 'xstate/machine';
 var PANEL_ID = exports.PANEL_ID = ADDON_ID + '/graph';
 //export const EVENT_ID = `${ADDON_ID}/action-event`;
 
-var WithXStateGraph = exports.WithXStateGraph = function (_React$Component) {
+var WithXStateGraph = function (_React$Component) {
   _inherits(WithXStateGraph, _React$Component);
 
   function WithXStateGraph(props) {
@@ -41,7 +41,9 @@ var WithXStateGraph = exports.WithXStateGraph = function (_React$Component) {
 
     var channel = _addons2.default.getChannel();
 
-    _this.onTransition = _this.onTransition.bind(_this);
+    // this.onTransition = this.onTransition.bind(this);
+    // this.onDetails = this.onDetails.bind(this);
+
     _this.resizeEmitter = (0, _lodash2.default)(function (evt) {
       if (evt.key === 'panelSizes') {
         channel.emit('xstate/resize');
@@ -49,6 +51,8 @@ var WithXStateGraph = exports.WithXStateGraph = function (_React$Component) {
     }, 100);
 
     channel.on('xstate/transition', _this.onTransition);
+    channel.on('xstate/details', _this.onDetails);
+
     window.addEventListener('storage', _this.resizeEmitter, false);
     return _this;
   }
@@ -56,7 +60,14 @@ var WithXStateGraph = exports.WithXStateGraph = function (_React$Component) {
   _createClass(WithXStateGraph, [{
     key: 'onTransition',
     value: function onTransition(nextState) {
+      console.log("Triggering the transaction?", this.props);
       this.props.onTransition(nextState);
+    }
+  }, {
+    key: 'onDetails',
+    value: function onDetails(evt, _onDetails) {
+      console.log("Triggering the details?", this.props);
+      this.props.onDetails(evt, details);
     }
   }, {
     key: 'componentWillUnmount',
@@ -64,6 +75,7 @@ var WithXStateGraph = exports.WithXStateGraph = function (_React$Component) {
       var channel = _addons2.default.getChannel();
       window.removeEventListener('storage', this.resizeEmitter, false);
       channel.removeListener('xstate/transition', this.onTransition);
+      channel.removeListener('xstate/details', this.onDetails);
     }
   }, {
     key: 'render',
@@ -81,3 +93,5 @@ var WithXStateGraph = exports.WithXStateGraph = function (_React$Component) {
 
   return WithXStateGraph;
 }(_react2.default.Component);
+
+exports.WithXStateGraph = WithXStateGraph;

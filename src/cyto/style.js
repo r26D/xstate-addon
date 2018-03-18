@@ -30,7 +30,7 @@ const style = [
       'curve-style': ele =>
         ele.data('isInitial') ? 'unbundled-bezier' : 'bezier',
 
-      label: 'data(key)'
+      label: 'data(label)'
     }
   }
 ];

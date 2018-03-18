@@ -15,15 +15,35 @@ export const build = (
         const childNodes = R.has('states', state)
           ? build(state.states, state.initial, stateKey, currentState, false)
           : [];
+         
         const edges = R.map(
-          edgeKey =>
-            createEdge({
+       
+          edgeKey => {
+            console.log("EdgeKey is", edgeKey, state.on[edgeKey]);
+            let target;
+            let eventData;
+            if (typeof state.on[edgeKey] === "string") {
+              target = state.on[edgeKey];
+              eventData = { label: edgeKey, actions: [] }
+            
+            }
+            else {
+              target = Object.keys(state.on[edgeKey])[0]
+              eventData = { label: edgeKey + "*", actions: state.on[edgeKey][target]["actions"] }
+            }
+           
+            return(createEdge({
               id: createId(stateKey, edgeKey),
+              source: state.relativeId,
               key: edgeKey,
               parent,
-              source: state.relativeId,
-              target: createId(parent, state.on[edgeKey])
-            }),
+              target: createId(parent, target),
+              label: eventData.label,
+              actions:  eventData.actions
+            
+            }));
+          }
+            ,
           R.keysIn(state.on)
         );
         const node = createNode({

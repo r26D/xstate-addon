@@ -38,7 +38,7 @@ var style = [{
       return ele.data('isInitial') ? 'unbundled-bezier' : 'bezier';
     },
 
-    label: 'data(key)'
+    label: 'data(label)'
   }
 }];
 
