@@ -1,6 +1,12 @@
 'use strict';
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+exports.register = register;
 
 var _react = require('react');
 
@@ -9,6 +15,8 @@ var _react2 = _interopRequireDefault(_react);
 var _addons = require('@storybook/addons');
 
 var _addons2 = _interopRequireDefault(_addons);
+
+var _ = require('./');
 
 var _style = require('./cyto/style');
 
@@ -120,11 +128,17 @@ var XStateGraph = function (_React$Component) {
   return XStateGraph;
 }(_react2.default.Component);
 
-_addons2.default.register('xstate/machine', function (api) {
-  _addons2.default.addPanel('xstate/machine/graph', {
-    title: 'xstate',
-    render: function render() {
-      return _react2.default.createElement(XStateGraph, { channel: _addons2.default.getChannel(), api: api });
-    }
+function register() {
+  console.log("Im' going to register my hting", _addons2.default.loaders);
+  _addons2.default.register(_.ADDON_ID, function (api) {
+    var channel = _addons2.default.getChannel();
+    console.log("Chaneel at this oiunt s", channel);
+    _addons2.default.addPanel(_.PANEL_ID, {
+      title: 'XState Graph',
+      render: function render() {
+        return _react2.default.createElement(XStateGraph, { channel: channel, api: api });
+      }
+    });
   });
-});
+  console.log("After the festier", _addons2.default.loaders);
+}

@@ -1,9 +1,13 @@
 import React from 'react';
 import addons from '@storybook/addons';
+
+import { ADDON_ID, PANEL_ID } from './';
+
 import style from './cyto/style';
 
 import { render } from './cyto';
 import { build } from './graphBuilder/statechart';
+
 
 const styles = {
   cy: {
@@ -62,9 +66,15 @@ class XStateGraph extends React.Component {
   }
 }
 
-addons.register('xstate/machine', api => {
-  addons.addPanel('xstate/machine/graph', {
-    title: 'xstate',
-    render: () => <XStateGraph channel={addons.getChannel()} api={api} />
+export function register() {
+  console.log("Im' going to register my hting",addons.loaders)
+  addons.register(ADDON_ID, (api) => {
+    const channel = addons.getChannel();
+    console.log("Chaneel at this oiunt s",channel)
+    addons.addPanel(PANEL_ID, {
+      title: 'XState Graph',
+      render: () => <XStateGraph channel={channel} api={api} />,
+    });
   });
-});
+  console.log("After the festier", addons.loaders)
+}

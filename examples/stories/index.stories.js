@@ -4,7 +4,7 @@ import { Machine } from 'xstate';
 import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { linkTo } from '@storybook/addon-links';
-import { WithXStateGraph } from 'storybook-addon-xstate';
+import { WithXStateGraph } from '@storybook/addon-xstate';
 
 import { Button, Welcome } from '@storybook/react/demo';
 import TrafficLight from '../helper/TrafficLight';
