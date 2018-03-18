@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/do-wa/xstate-addon.git"
+    "url": "git+https://github.com/r26D/xstate-addon.git"
   },
   "keywords": [
     "storybook",
@@ -24,7 +24,7 @@
   "bugs": {
     "url": "https://github.com/do-wa/xstate-addon/issues"
   },
-  "homepage": "https://github.com/do-wa/xstate-addon#readme",
+  "homepage": "https://github.com/r26D/xstate-addon#readme",
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-plugin-transform-object-rest-spread": "^6.26.0",

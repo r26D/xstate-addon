@@ -68,30 +68,11 @@ class XStateGraph extends React.Component {
 }
 
 export function register() {
-
-  // addons.register(ADDON_ID, api => {
-//   const channel = addons.getChannel();
-
-//   addons.addPanel(`${ADDON_ID}/graph`, {
-//     title: 'XState Graph',
-//     render: () => <div><h1>Graph Panel</h1><p>asdfsfafsdfadsasfdasdf</p></div>,
-//     //render: () => <StoryPanel channel={channel} onStory={api.onStory} />,
-//   });
-
-// //   addons.addPanel(`${ADDON_ID}/propsPanel`, {
-// //     title: 'Props',
-// //     render: () => <PropsPanel channel={channel} onStory={api.onStory} />,
-// //   });
-// });
-  console.log("Im' going to register my hting",addons.loaders)
   addons.register(ADDON_ID, (api) => {
     const channel = addons.getChannel();
-    console.log("Chaneel at this oiunt s",channel)
     addons.addPanel(PANEL_ID, {
       title: 'XState Graph',
       render: () => <XStateGraph channel={channel} api={api} />,
     });
   });
-  console.log("After the festier", addons.loaders)
-  return(function() {} )
 }

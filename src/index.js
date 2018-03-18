@@ -9,9 +9,8 @@ export const PANEL_ID = `${ADDON_ID}/graph`;
 export class WithXStateGraph extends React.Component {
   constructor(props) {
     super(props);
-	  console.log("At thius pooint ", addons);
+
     const channel = addons.getChannel();
-	  console.log("Going to use channel",channel);
 
     this.onTransition = this.onTransition.bind(this);
     this.resizeEmitter = debounce(evt => {
